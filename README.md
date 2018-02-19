@@ -276,3 +276,86 @@ Project imported.
 
 
 ```
+## Ansible container apache server
+
+```
+[root@osboxes ansible-apache]# ansible-container import /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/apache/
+Project successfully imported. You can find the results in:
+/home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/apache/ansible-apache
+A brief description of what you will find...
+
+
+container.yml
+-------------
+
+The container.yml file is your orchestration file that expresses what services you have and how to build/run them.
+
+settings:
+  conductor_base: ubuntu
+services:
+  ? ''
+  : roles:
+    - ''
+
+
+I added a single service named  for your imported Dockerfile.
+As you can see, I made an Ansible role for your service, which you can find in:
+/home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/apache/ansible-apache/roles/
+
+ansible-apache/roles/tasks/main.yml
+-----------------------------------
+
+The tasks/main.yml file has your RUN/ADD/COPY instructions.
+
+- name: Update the repository sources list
+  shell: apt-get update
+- name: Install and run apache
+  shell: apt-get install -y apache2 && apt-get clean
+- shell: mkdir $DIR_APACHE
+- name: ADD mpm_prefork.conf $DIR_APACHE
+  shell: cd /etc/apache2/mods-available
+  args:
+    chdir: "{{ lookup('env', 'DIR_APACHE') }}"
+- shell: chmod 700 mpm_prefork.conf
+  args:
+    chdir: "{{ lookup('env', 'DIR_APACHE') }}"
+- shell: chmod 700 mpm_worker.conf
+  args:
+    chdir: "{{ lookup('env', 'DIR_APACHE') }}"
+- shell: echo "envsubst < $DIR_APACHE/mpm_prefork-template.conf > ./mpm_prefork.conf"
+  args:
+    chdir: "{{ lookup('env', 'DIR_APACHE') }}"
+- shell: echo "envsubst < $DIR_APACHE/mpm_worker-template.conf > ./mpm_worker.conf"
+  args:
+    chdir: "{{ lookup('env', 'DIR_APACHE') }}"
+
+
+I tried to preserve comments as task names, but you probably want to make
+sure each task has a human readable name.
+
+ansible-apache/roles/meta/container.yml
+---------------------------------------
+
+Metadata from your Dockerfile went into meta/container.yml in your role.
+These will be used as build/run defaults for your role.
+
+from: ubuntu
+maintainer: Fernando Mendez Requena - fernando.mendez@atos.net
+environment:
+  DIR_APACHE: /apache
+working_dir: "{{ lookup('env', 'DIR_APACHE') }}"
+ports:
+- '80'
+command: apachectl -D FOREGROUND
+
+
+I also stored ARG directives in the role's defaults/main.yml which will used as
+variables by Ansible in your build and run operations.
+
+Good luck!
+Project imported.	
+
+
+```
+
+
