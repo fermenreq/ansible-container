@@ -130,3 +130,149 @@ Project imported.
 
 
 ```
+## Ansible container webApp
+
+```
+[root@osboxes ansible-web]# ansible-container import /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/webapp//ShowcaseServer/
+Project successfully imported. You can find the results in:
+/home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/webapp/ShowcaseServer/ansible-web
+A brief description of what you will find...
+
+
+container.yml
+-------------
+
+The container.yml file is your orchestration file that expresses what services you have and how to build/run them.
+
+settings:
+  conductor_base: ubuntu:xenial
+services:
+  ? ''
+  : roles:
+    - ''
+
+
+I added a single service named  for your imported Dockerfile.
+As you can see, I made an Ansible role for your service, which you can find in:
+/home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/webapp/ShowcaseServer/ansible-web/roles/
+
+ansible-web/roles/tasks/main.yml
+--------------------------------
+
+The tasks/main.yml file has your RUN/ADD/COPY instructions.
+
+- shell: apt-get update
+- shell: apt-get -qq install -y
+- shell: sudo libpq-dev postgresql postgresql-contrib -y -qq
+- shell: sudo postgresql-client-common
+- shell: dialog apt-utils
+- shell: nodejs npm nodejs-legacy -y -qq
+- shell: python-pip
+- shell: python-dev
+- shell: python-virtualenv
+- shell: apache2
+- shell: pip install --upgrade pip
+- shell: mkdir /webapp && mkdir $WEBAPP_DIR
+- name: Ensure  exists
+  file:
+    path: ''
+    state: directory
+- copy:
+    src: basic-dep.sh
+    dest: "{{ lookup('env', 'WEBAPP_DIR') }}"
+- shell: cd $WEBAPP_DIR
+  args:
+    chdir: "{{ lookup('env', 'WEBAPP_DIR') }}"
+- shell: chmod 700 basic-dep.sh
+  args:
+    chdir: "{{ lookup('env', 'WEBAPP_DIR') }}"
+- shell: ./basic-dep.sh
+  args:
+    chdir: "{{ lookup('env', 'WEBAPP_DIR') }}"
+- name: Ensure  exists
+  file:
+    path: ''
+    state: directory
+- copy:
+    src: requirements.txt
+    dest: "{{ lookup('env', 'WEBAPP_DIR') }}"
+- shell: pip install -r requirements.txt
+  args:
+    chdir: "{{ lookup('env', 'WEBAPP_DIR') }}"
+- name: Ensure  exists
+  file:
+    path: ''
+    state: directory
+- copy:
+    src: manage.py
+    dest: "{{ lookup('env', 'WEBAPP_DIR') }}"
+- name: Ensure {{ lookup('env', 'WEBAPP_DIR') }} exists
+  file:
+    path: "{{ lookup('env', 'WEBAPP_DIR') }}"
+    state: directory
+- name: ADD ShowcaseServer $WEBAPP_DIR/ShowcaseServer (showcase_server)
+  synchronize:
+    src: showcase_server
+    dest: "{{ lookup('env', 'WEBAPP_DIR') }}/showcase_server"
+    recursive: yes
+- name: Ensure {{ lookup('env', 'WEBAPP_DIR') }} exists
+  file:
+    path: "{{ lookup('env', 'WEBAPP_DIR') }}"
+    state: directory
+- synchronize:
+    src: backend
+    dest: "{{ lookup('env', 'WEBAPP_DIR') }}/backend"
+    recursive: yes
+- name: Ensure {{ lookup('env', 'WEBAPP_DIR') }} exists
+  file:
+    path: "{{ lookup('env', 'WEBAPP_DIR') }}"
+    state: directory
+- synchronize:
+    src: dashboard
+    dest: "{{ lookup('env', 'WEBAPP_DIR') }}/dashboard"
+    recursive: yes
+- name: Ensure  exists
+  file:
+    path: ''
+    state: directory
+- copy:
+    src: dev-setup.sh
+    dest: "{{ lookup('env', 'WEBAPP_DIR') }}"
+- shell: cd $WEBAPP_DIR
+  args:
+    chdir: "{{ lookup('env', 'WEBAPP_DIR') }}"
+- shell: chmod 700 dev-setup.sh
+  args:
+    chdir: "{{ lookup('env', 'WEBAPP_DIR') }}"
+- shell: ./dev-setup.sh
+  args:
+    chdir: "{{ lookup('env', 'WEBAPP_DIR') }}"
+
+
+I tried to preserve comments as task names, but you probably want to make
+sure each task has a human readable name.
+
+ansible-web/roles/meta/container.yml
+------------------------------------
+
+Metadata from your Dockerfile went into meta/container.yml in your role.
+These will be used as build/run defaults for your role.
+
+from: ubuntu:xenial
+maintainer: Fernando Mendez Requena <fernando.mendez.external@atos.net>
+environment:
+# Show python errors
+  PYTHONUNBUFFERED: '1'
+  WEBAPP_DIR: /webapp/ShowcaseServer/
+working_dir: "{{ lookup('env', 'WEBAPP_DIR') }}"
+
+
+I also stored ARG directives in the role's defaults/main.yml which will used as
+variables by Ansible in your build and run operations.
+
+Good luck!
+Project imported.	
+
+
+
+```
