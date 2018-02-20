@@ -1,0 +1,17 @@
+from: ubuntu
+maintainer: Fernando Mendez Requena <fernando.mendez.external@atos.net>
+environment:
+  DIR_DB: /db
+working_dir: "{{ lookup('env', 'DIR_DB') }}"
+user: postgres
+# WORKDIR /docker-entrypoint-initdb.d/
+# ADD init-db.sql /docker-entrypoint-initdb.d
+ports:
+- '5432'
+# Set the default command to run when starting the container
+command:
+- /usr/lib/postgresql/9.3/bin/postgres
+- -D
+- /var/lib/postgresql/9.3/main
+- -c
+- config_file=/etc/postgresql/9.3/main/postgresql.conf

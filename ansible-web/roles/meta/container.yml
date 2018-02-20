@@ -1,0 +1,7 @@
+from: ubuntu:xenial
+maintainer: Fernando Mendez Requena <fernando.mendez.external@atos.net>
+environment:
+# Show python errors
+  PYTHONUNBUFFERED: '1'
+  WEBAPP_DIR: /webapp/ShowcaseServer/
+working_dir: "{{ lookup('env', 'WEBAPP_DIR') }}"

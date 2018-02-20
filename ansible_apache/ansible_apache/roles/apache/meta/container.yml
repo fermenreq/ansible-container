@@ -1,0 +1,8 @@
+from: ubuntu
+maintainer: Fernando Mendez Requena - fernando.mendez@atos.net
+environment:
+  DIR_APACHE: /apache
+working_dir: "{{ lookup('env', 'DIR_APACHE') }}"
+ports:
+- '80'
+command: apachectl -D FOREGROUND

@@ -1,0 +1,21 @@
+- name: Update the repository sources list
+  shell: apt-get update
+- name: Install and run apache
+  shell: apt-get install -y apache2 && apt-get clean
+- shell: mkdir $DIR_APACHE
+- name: ADD mpm_prefork.conf $DIR_APACHE
+  shell: cd /etc/apache2/mods-available
+  args:
+    chdir: "{{ lookup('env', 'DIR_APACHE') }}"
+- shell: chmod 700 mpm_prefork.conf
+  args:
+    chdir: "{{ lookup('env', 'DIR_APACHE') }}"
+- shell: chmod 700 mpm_worker.conf
+  args:
+    chdir: "{{ lookup('env', 'DIR_APACHE') }}"
+- shell: echo "envsubst < $DIR_APACHE/mpm_prefork-template.conf > ./mpm_prefork.conf"
+  args:
+    chdir: "{{ lookup('env', 'DIR_APACHE') }}"
+- shell: echo "envsubst < $DIR_APACHE/mpm_worker-template.conf > ./mpm_worker.conf"
+  args:
+    chdir: "{{ lookup('env', 'DIR_APACHE') }}"

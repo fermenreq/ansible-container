@@ -1,0 +1,6 @@
+settings:
+  conductor_base: ubuntu
+services:
+  apache:
+    roles:
+    - apache

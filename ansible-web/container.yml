@@ -1,0 +1,6 @@
+settings:
+  conductor_base: ubuntu:xenial
+services:
+  ? ''
+  : roles:
+    - ''
