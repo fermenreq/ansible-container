@@ -1,8 +1,8 @@
-# ansible-container
-Migrate  Dockerfiles to Ansible
+# Migrate Dockerfiles to Ansible
 
+This document show you how you can translate dockerfiles to ansible, using **ansible-container import**
 
-## Ansible container bd 
+## 1.Ansible container bd 
 ```
 [root@osboxes ansible-db]# ansible-container import /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/db/
 Project successfully imported. You can find the results in:
@@ -130,7 +130,7 @@ Project imported.
 
 
 ```
-## Ansible container webApp
+## 2.Ansible container webApp
 
 ```
 [root@osboxes ansible-web]# ansible-container import /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/webapp//ShowcaseServer/
@@ -276,7 +276,7 @@ Project imported.
 
 
 ```
-## Ansible container apache server
+## 3.Ansible container apache server
 
 ```
 [root@osboxes ansible-apache]# ansible-container import /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/apache/
@@ -359,3 +359,6 @@ Project imported.
 ```
 
 
+## Autors
+
+fernando.mendez@atos.net
