@@ -1,6 +1,6 @@
-# Migrate Dockerfiles to Ansible
+# From Dockerfiles to Ansible
 
-This document show you how you can translate dockerfiles to ansible, using **ansible-container import**
+This document show you how you can migrate dockerfiles to ansible, using **ansible-container import**
 
 ## 1.Ansible container bd 
 ```
