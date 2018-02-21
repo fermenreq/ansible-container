@@ -293,9 +293,9 @@ The container.yml file is your orchestration file that expresses what services y
 settings:
   conductor_base: ubuntu
 services:
-  ? ''
-  : roles:
-    - ''
+  apache:
+     roles:
+       - apache
 
 
 I added a single service named  for your imported Dockerfile.
