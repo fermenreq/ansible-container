@@ -2,9 +2,21 @@
 
 This document show you how you can migrate dockerfiles to ansible, using **ansible-container import**
 
+## Requirements:
+
+- Docker
+- Ansible-container
+
+## How to install ansible-container:
+
+[Welcome to ansible-container!](http://docs.ansible.com/ansible-container/)
+
 ## 1.Ansible container bd 
 ```
 [root@osboxes ansible-db]# ansible-container import /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/db/
+
+```
+```
 Project successfully imported. You can find the results in:
 /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/db/ansible-db
 A brief description of what you will find...
@@ -133,7 +145,9 @@ Project imported.
 ## 2.Ansible container webApp
 
 ```
-[root@osboxes ansible-web]# ansible-container import /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/webapp//ShowcaseServer/
+[root@osboxes ansible-web]# ansible-container import /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/webapp/ShowcaseServer/
+```
+```
 Project successfully imported. You can find the results in:
 /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/webapp/ShowcaseServer/ansible-web
 A brief description of what you will find...
@@ -280,6 +294,8 @@ Project imported.
 
 ```
 [root@osboxes ansible-apache]# ansible-container import /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/apache/
+```
+```
 Project successfully imported. You can find the results in:
 /home/osboxes/Desktop/STAMP/atos-uc-city2go/city2go/apache/ansible-apache
 A brief description of what you will find...
@@ -357,8 +373,6 @@ Project imported.
 
 
 ```
-
-
 ## Autors
 
-fernando.mendez@atos.net
+**fernando.mendez@atos.net**
